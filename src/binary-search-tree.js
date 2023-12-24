@@ -1,5 +1,4 @@
-const { NotImplementedError } = require('../extensions/index.js');
-
+/* eslint-disable import/extensions */
 const { Node } = require('../extensions/list-tree.js');
 
 /**
@@ -24,6 +23,7 @@ class BinarySearchTree {
         if (node.left) {
           insertNode(node.left);
         } else {
+          // eslint-disable-next-line no-param-reassign
           node.left = newNode;
           this.size += 1;
         }
@@ -32,6 +32,7 @@ class BinarySearchTree {
           if (node.right) {
             insertNode(node.right);
           } else {
+            // eslint-disable-next-line no-param-reassign
             node.right = newNode;
             this.size += 1;
           }
@@ -64,6 +65,8 @@ class BinarySearchTree {
             return searchNode(node.right);
           }
         }
+
+      return null;
     };
 
     return searchNode(this.rootNode) || null;
@@ -98,6 +101,8 @@ class BinarySearchTree {
             return searchNodes(node.right, node);
           }
         }
+
+      return null;
     };
 
     const deleteNode = (node) => {
