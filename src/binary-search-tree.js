@@ -165,6 +165,14 @@ class BinarySearchTree {
 
     return currentMax ? currentMax.data : null;
   }
+
+  get size() {
+    return this.#size;
+  }
+
+  show() {
+    return JSON.stringify(this.#rootNode, null, '\t');
+  }
 }
 
 module.exports = {
