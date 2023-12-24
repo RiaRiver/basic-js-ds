@@ -6,13 +6,17 @@ const { Node } = require('../extensions/list-tree.js');
 * using Node from extensions
 */
 class BinarySearchTree {
+  #rootNode;
+
+  #size;
+
   constructor(data) {
-    this.rootNode = data ? new Node(data) : null;
-    this.size = this.rootNode ? 1 : 0;
+    this.#rootNode = data ? new Node(data) : null;
+    this.#size = this.#rootNode ? 1 : 0;
   }
 
   root() {
-    return this.rootNode;
+    return this.#rootNode;
   }
 
   add(data) {
@@ -25,7 +29,7 @@ class BinarySearchTree {
         } else {
           // eslint-disable-next-line no-param-reassign
           node.left = newNode;
-          this.size += 1;
+          this.#size += 1;
         }
       } else
         if (data > node.data) {
@@ -34,15 +38,15 @@ class BinarySearchTree {
           } else {
             // eslint-disable-next-line no-param-reassign
             node.right = newNode;
-            this.size += 1;
+            this.#size += 1;
           }
         }
     };
 
-    if (this.rootNode === null) {
-      this.rootNode = newNode;
-      this.size += 1;
-    } else insertNode(this.rootNode);
+    if (this.#rootNode === null) {
+      this.#rootNode = newNode;
+      this.#size += 1;
+    } else insertNode(this.#rootNode);
   }
 
   has(data) {
@@ -69,13 +73,13 @@ class BinarySearchTree {
       return null;
     };
 
-    return searchNode(this.rootNode) || null;
+    return searchNode(this.#rootNode) || null;
   }
 
   remove(data) {
     // Functions
     const maxPair = (root) => {
-      let currentMax = root || this.rootNode;
+      let currentMax = root || this.#rootNode;
       let currentMaxParent = null;
 
       while (currentMax.right) {
@@ -126,24 +130,24 @@ class BinarySearchTree {
     };
 
     // Main
-    if (this.rootNode.data === data) {
-      this.rootNode = deleteNode(this.rootNode);
-      this.size -= 1;
+    if (this.#rootNode.data === data) {
+      this.#rootNode = deleteNode(this.#rootNode);
+      this.#size -= 1;
     }
 
-    const nodes = searchNodes(this.rootNode, null);
+    const nodes = searchNodes(this.#rootNode, null);
 
     if (nodes) {
       if (nodes.parent.left === nodes.node) {
         nodes.parent.left = deleteNode(nodes.node);
       } else nodes.parent.right = deleteNode(nodes.node);
 
-      this.size -= 1;
+      this.#size -= 1;
     }
   }
 
   min() {
-    let currentMin = this.rootNode;
+    let currentMin = this.#rootNode;
 
     while (currentMin.left) {
       currentMin = currentMin.left;
@@ -153,7 +157,7 @@ class BinarySearchTree {
   }
 
   max() {
-    let currentMax = this.rootNode;
+    let currentMax = this.#rootNode;
 
     while (currentMax.right) {
       currentMax = currentMax.right;
