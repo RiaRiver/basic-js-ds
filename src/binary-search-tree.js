@@ -69,9 +69,72 @@ class BinarySearchTree {
     return searchNode(this.rootNode) || null;
   }
 
-  remove(/* data */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  remove(data) {
+    // Functions
+    const maxPair = (root) => {
+      let currentMax = root || this.rootNode;
+      let currentMaxParent = null;
+
+      while (currentMax.right) {
+        currentMaxParent = currentMax;
+        currentMax = currentMax.right;
+      }
+
+      return { maxParent: currentMaxParent, max: currentMax };
+    };
+
+    const searchNodes = (node, parent) => {
+      if (data === node.data) {
+        return { node, parent };
+      }
+
+      if (data < node.data) {
+        if (node.left) {
+          return searchNodes(node.left, node);
+        }
+      } else
+        if (data > node.data) {
+          if (node.right) {
+            return searchNodes(node.right, node);
+          }
+        }
+    };
+
+    const deleteNode = (node) => {
+      if (node.left && node.right) {
+        const { max, maxParent } = maxPair(node.left);
+
+        if (maxParent) maxParent.right = null;
+
+        if (max !== node.left) max.left = node.left;
+
+        max.right = node.right;
+
+        return max;
+      }
+
+      if (!node.left && !node.right) {
+        return null;
+      }
+
+      return node.left ? node.left : node.right;
+    };
+
+    // Main
+    if (this.rootNode.data === data) {
+      this.rootNode = deleteNode(this.rootNode);
+      this.size -= 1;
+    }
+
+    const nodes = searchNodes(this.rootNode, null);
+
+    if (nodes) {
+      if (nodes.parent.left === nodes.node) {
+        nodes.parent.left = deleteNode(nodes.node);
+      } else nodes.parent.right = deleteNode(nodes.node);
+
+      this.size -= 1;
+    }
   }
 
   min() {
